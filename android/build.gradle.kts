@@ -4,24 +4,33 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdkVersion(31)
+
     defaultConfig {
-        applicationId = "com.sedsoftware.remindies.android"
-        minSdk = 21
-        targetSdk = 31
+        minSdkVersion(23)
+        targetSdkVersion(31)
         versionCode = 1
         versionName = "1.0"
     }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    packagingOptions {
+        exclude("META-INF/*")
     }
 }
 
 dependencies {
     implementation(project(":common"))
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlin)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinLogging)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinTimeTravel)
+    implementation(Deps.ArkIvanov.Decompose.decompose)
+    implementation(Deps.ArkIvanov.Decompose.extensionsCompose)
+    implementation(Deps.AndroidX.AppCompat.appCompat)
+    implementation(Deps.AndroidX.Activity.activityCompose)
 }
