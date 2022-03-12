@@ -1,28 +1,16 @@
-// We store Kotlin and Compose versions in gradle.properties to
-// be able to override them on CI.
-// You probably won't need this, so you can get rid of `project` in this file.
-import org.gradle.api.Project
-
-lateinit var properties: Map<String, *>
-
-fun initDeps(project: Project) {
-    properties = project.properties
-}
-
 object Deps {
     object JetBrains {
         object Kotlin {
-            private val VERSION get() = properties["kotlin.version"]
+            private val VERSION get() = "1.6.10"
             val gradlePlugin get() = "org.jetbrains.kotlin:kotlin-gradle-plugin:$VERSION"
             val testCommon get() = "org.jetbrains.kotlin:kotlin-test-common:$VERSION"
             val testJunit get() = "org.jetbrains.kotlin:kotlin-test-junit:$VERSION"
-            val testJs get() = "org.jetbrains.kotlin:kotlin-test-js:$VERSION"
             val testAnnotationsCommon get() = "org.jetbrains.kotlin:kotlin-test-annotations-common:$VERSION"
         }
 
         object Compose {
-            private val VERSION get() = properties["compose.version"]
-            val gradlePlugin get() = "org.jetbrains.compose:compose-gradle-plugin:$VERSION"
+            // private val VERSION get() = properties["compose.version"]
+            // val gradlePlugin get() = "org.jetbrains.compose:compose-gradle-plugin:$VERSION"
         }
     }
 
@@ -56,9 +44,10 @@ object Deps {
         }
 
         object Decompose {
-            private const val VERSION = "0.5.1"
+            private const val VERSION = "0.5.2"
             const val decompose = "com.arkivanov.decompose:decompose:$VERSION"
-            const val extensionsCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
+            const val extensionsJetbrains = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
+            const val extensionsJetpack = "com.arkivanov.decompose:extensions-compose-jetpack:$VERSION"
         }
 
         object Essenty {
@@ -85,7 +74,6 @@ object Deps {
             const val androidDriver = "com.squareup.sqldelight:android-driver:$VERSION"
             const val sqliteDriver = "com.squareup.sqldelight:sqlite-driver:$VERSION"
             const val nativeDriver = "com.squareup.sqldelight:native-driver:$VERSION"
-            const val sqljsDriver = "com.squareup.sqldelight:sqljs-driver:$VERSION"
         }
     }
 }

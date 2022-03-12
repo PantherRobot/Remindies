@@ -3,8 +3,6 @@ plugins {
     id("kotlin-multiplatform")
 }
 
-initDeps(project)
-
 kotlin {
     android()
 

@@ -1,15 +1,15 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.library")
 }
 
-initDeps(project)
-
 android {
-    compileSdkVersion(31)
+    compileSdk = 31
 
     defaultConfig {
-        minSdkVersion(23)
-        targetSdkVersion(31)
+        minSdk = 23
+        targetSdk = 31
     }
 
     compileOptions {
