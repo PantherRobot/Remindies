@@ -2,8 +2,8 @@ package com.sedsoftware.remindies.android
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.sedsoftware.remindies.Greeting
 import android.widget.TextView
+import com.sedsoftware.root.Greeting
 
 fun greet(): String {
     return Greeting().greeting()

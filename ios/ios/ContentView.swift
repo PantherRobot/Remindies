@@ -1,16 +1,22 @@
+//
+//  ContentView.swift
+//  ios
+//
+//  Created by Sergey V. on 16.03.2022.
+//
+
 import SwiftUI
-import common
+import Remindies
 
 struct ContentView: View {
-	let greet = Greeting().greeting()
-
-	var body: some View {
-		Text(greet)
-	}
+    var body: some View {
+        Text(Greeting().greeting())
+            .padding()
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
-	static var previews: some View {
-		ContentView()
-	}
+    static var previews: some View {
+        ContentView()
+    }
 }
