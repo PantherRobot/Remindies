@@ -12,6 +12,11 @@ object Deps {
             // private val VERSION get() = properties["compose.version"]
             // val gradlePlugin get() = "org.jetbrains.compose:compose-gradle-plugin:$VERSION"
         }
+
+        object DateTime {
+            private const val VERSION = "0.3.2"
+            const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:$VERSION"
+        }
     }
 
     object Android {

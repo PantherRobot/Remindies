@@ -7,5 +7,6 @@ allprojects {
         google()
         mavenCentral()
         mavenLocal()
+        maven("https://kotlin.bintray.com/kotlinx/")
     }
 }

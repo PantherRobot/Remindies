@@ -25,7 +25,6 @@ kotlin {
                 // implementation(project(":common:database"))
                 implementation(Deps.ArkIvanov.Decompose.decompose)
                 implementation(Deps.ArkIvanov.MVIKotlin.mvikotlin)
-                implementation(Deps.Badoo.Reaktive.reaktive)
             }
         }
 
