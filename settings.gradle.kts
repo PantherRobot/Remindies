@@ -1,5 +1,6 @@
 include(
     ":android",
     ":common:root",
-    ":common:domain"
+    ":common:domain",
+    ":common:database"
 )
