@@ -35,6 +35,10 @@ object Deps {
         object Activity {
             const val activityCompose = "androidx.activity:activity-compose:1.3.0"
         }
+
+        object Preferences {
+            const val preferences = "androidx.preference:preference-ktx:1.2.0"
+        }
     }
 
     object ArkIvanov {
@@ -79,6 +83,15 @@ object Deps {
             const val androidDriver = "com.squareup.sqldelight:android-driver:$VERSION"
             const val sqliteDriver = "com.squareup.sqldelight:sqlite-driver:$VERSION"
             const val nativeDriver = "com.squareup.sqldelight:native-driver:$VERSION"
+        }
+    }
+
+    object KMM {
+        object MultiplatformSettings {
+            private const val VERSION = "0.8.1"
+
+            const val settings = "com.russhwolf:multiplatform-settings:$VERSION"
+            const val test = "com.russhwolf:multiplatform-settings-test:$VERSION"
         }
     }
 }
