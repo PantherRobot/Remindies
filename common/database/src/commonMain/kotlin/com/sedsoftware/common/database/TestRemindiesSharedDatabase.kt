@@ -20,6 +20,7 @@ class TestRemindiesSharedDatabase(
     private val itemsSubject: BehaviorSubject<Map<Long, RemindieEntity>> = BehaviorSubject(emptyMap())
     private val itemsObservable: Observable<Map<Long, RemindieEntity>> = itemsSubject.observeOn(scheduler)
     private val testing: Testing = Testing()
+    private var internalId: Long = 0L
 
     override fun observeAll(): Observable<List<RemindieEntity>> =
         itemsObservable.map { it.values.toList() }
@@ -30,8 +31,8 @@ class TestRemindiesSharedDatabase(
             .observeOn(scheduler)
 
     // @formatter:off
-    override fun insert(id: Long, timestamp: Long, created: String, shot: String, timeZone: String, title: String, type: String, period: String, each: Int): Completable =
-        execute { testing.add(id, timestamp, created, shot, timeZone, title, type, period, each) }
+    override fun insert(timestamp: Long, created: String, shot: String, timeZone: String, title: String, type: String, period: String, each: Int): Completable =
+        execute { testing.add(internalId++, timestamp, created, shot, timeZone, title, type, period, each) }
 
     // @formatter:on
     override fun delete(id: Long): Completable =
