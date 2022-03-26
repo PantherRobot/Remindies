@@ -13,6 +13,7 @@ kotlin {
                 linkerOpts.add("-lsqlite3")
                 export(project(":common:database"))
                 export(project(":common:domain"))
+                export(project(":common:tools"))
                 export(Deps.ArkIvanov.Decompose.decompose)
                 export(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
                 export(Deps.ArkIvanov.Essenty.lifecycle)
@@ -25,6 +26,7 @@ kotlin {
             dependencies {
                 implementation(project(":common:database"))
                 implementation(project(":common:domain"))
+                implementation(project(":common:tools"))
                 implementation(Deps.ArkIvanov.Decompose.decompose)
                 implementation(Deps.ArkIvanov.MVIKotlin.mvikotlin)
                 implementation(Deps.Badoo.Reaktive.reaktive)
@@ -35,6 +37,7 @@ kotlin {
             dependencies {
                 api(project(":common:database"))
                 api(project(":common:domain"))
+                api(project(":common:tools"))
                 api(Deps.ArkIvanov.Decompose.decompose)
                 api(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
                 api(Deps.ArkIvanov.Essenty.lifecycle)
