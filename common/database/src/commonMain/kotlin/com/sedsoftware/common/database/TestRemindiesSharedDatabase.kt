@@ -31,8 +31,8 @@ class TestRemindiesSharedDatabase(
             .observeOn(scheduler)
 
     // @formatter:off
-    override fun insert(createdTimestamp: Long, createdDate: String, targetTime: String, creationTimeZone: String, title: String, type: String, period: String, each: Int): Completable =
-        execute { testing.add(internalId++, createdTimestamp, createdDate, targetTime, creationTimeZone, title, type, period, each) }
+    override fun insert(createdTimestamp: Long, createdDate: String, targetTime: String, creationTimeZone: String, title: String, description: String, type: String, period: String, each: Int): Completable =
+        execute { testing.add(internalId++, createdTimestamp, createdDate, targetTime, creationTimeZone, title, description, type, period, each) }
 
     // @formatter:on
     override fun delete(id: Long): Completable =
@@ -54,10 +54,10 @@ class TestRemindiesSharedDatabase(
             requireNotNull(select(id))
 
         // @formatter:off
-        fun add(id: Long, timestamp: Long, created: String, shot: String, timeZone: String, title: String, type: String, period: String, each: Int) {
+        fun add(id: Long, timestamp: Long, created: String, shot: String, timeZone: String, title: String, description: String, type: String, period: String, each: Int) {
             updateItems { items ->
                 val nextId = items.keys.maxOrNull()?.plus(1L) ?: 1L
-                val item = RemindieEntity(id, timestamp, created, shot, timeZone, title, type, period, each)
+                val item = RemindieEntity(id, timestamp, created, shot, timeZone, title, description, type, period, each)
                 items + (nextId to item)
             }
         }

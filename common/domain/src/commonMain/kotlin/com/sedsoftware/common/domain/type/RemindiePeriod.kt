@@ -7,4 +7,8 @@ enum class RemindiePeriod(val str: String) {
     WEEKLY("W"),
     MONTHLY("M"),
     YEARLY("Y");
+
+    companion object {
+        fun fromString(str: String): RemindiePeriod = values().find { it.str == str } ?: NONE
+    }
 }

@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS RemindieEntity (
     targetTime TEXT NOT NULL,
     creationTimeZone TEXT NOT NULL,
     title TEXT NOT NULL,
+    description TEXT NOT NULL,
     type TEXT NOT NULL,
     period TEXT NOT NULL,
     each INTEGER AS Int NOT NULL
@@ -27,5 +28,5 @@ clear:
 DELETE FROM RemindieEntity;
 
 insert:
-INSERT INTO RemindieEntity (createdTimestamp, createdDate, targetTime, creationTimeZone, title, type, period, each)
-VALUES (:timestamp, :created, :shot, :timeZone, :title, :type, :period, :each);
+INSERT INTO RemindieEntity (createdTimestamp, createdDate, targetTime, creationTimeZone, title, description, type, period, each)
+VALUES (:timestamp, :created, :shot, :timeZone, :title, :description, :type, :period, :each);
