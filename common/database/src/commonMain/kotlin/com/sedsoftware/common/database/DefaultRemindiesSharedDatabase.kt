@@ -44,8 +44,8 @@ class DefaultRemindiesSharedDatabase(driver: Single<SqlDriver>) : RemindiesShare
             .mapNotNull { it.executeAsOneOrNull() }
 
     // @formatter:off
-    override fun insert(timestamp: Long, created: String, shot: String, timeZone: String, title: String, type: String, period: String, each: Int): Completable =
-        execute { it.insert(timestamp, created, shot, timeZone, title, type, period, each) }
+    override fun insert(createdTimestamp: Long, createdDate: String, targetTime: String, creationTimeZone: String, title: String, type: String, period: String, each: Int): Completable =
+        execute { it.insert(createdTimestamp, createdDate, targetTime, creationTimeZone, title, type, period, each) }
 
     // @formatter:on
     override fun delete(id: Long): Completable =
