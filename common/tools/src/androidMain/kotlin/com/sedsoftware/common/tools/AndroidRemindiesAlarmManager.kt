@@ -11,9 +11,9 @@ import com.sedsoftware.common.domain.entity.NextShot
 import com.sedsoftware.common.domain.entity.toScheduledTime
 import com.sedsoftware.common.tools.notification.RemindieNotification
 
-class AndroidRemindiesScheduler(
+class AndroidRemindiesAlarmManager(
     private val context: Context
-) : RemindiesScheduler {
+) : RemindiesAlarmManager {
 
     private val alarmManager: AlarmManager =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -25,27 +25,27 @@ class AndroidRemindiesScheduler(
         createNotificationChannel()
     }
 
-    override fun schedule(nextShot: NextShot) {
+    override fun schedule(shot: NextShot) {
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
-            nextShot.toScheduledTime(),
-            createPendingIntent(nextShot)
+            shot.toScheduledTime(),
+            createPendingIntent(shot)
         )
     }
 
-    override fun cancel(nextShot: NextShot) {
-        alarmManager.cancel(createPendingIntent(nextShot))
+    override fun cancel(shot: NextShot) {
+        alarmManager.cancel(createPendingIntent(shot))
     }
 
-    private fun createPendingIntent(nextShot: NextShot): PendingIntent {
+    private fun createPendingIntent(shot: NextShot): PendingIntent {
         val intent = Intent(context.applicationContext, RemindieNotification::class.java).apply {
-            putExtra(RemindieNotification.titleExtra, nextShot.remindie.title)
-            putExtra(RemindieNotification.messageExtra, nextShot.remindie.description)
+            putExtra(RemindieNotification.titleExtra, shot.remindie.title)
+            putExtra(RemindieNotification.messageExtra, shot.remindie.description)
         }
 
         return PendingIntent.getBroadcast(
             context.applicationContext,
-            nextShot.remindie.id.toInt(),
+            shot.remindie.id.toInt(),
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
