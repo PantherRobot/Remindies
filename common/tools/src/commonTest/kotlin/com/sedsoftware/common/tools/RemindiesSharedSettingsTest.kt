@@ -1,7 +1,8 @@
-package com.sedsoftware.common.tools.shared
+package com.sedsoftware.common.tools
 
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.MockSettings
+import com.sedsoftware.common.tools.RemindiesSharedSettings
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue

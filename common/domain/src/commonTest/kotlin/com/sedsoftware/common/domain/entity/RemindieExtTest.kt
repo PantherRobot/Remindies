@@ -26,6 +26,7 @@ class RemindieExtTest {
             shot = shot1,
             timeZone = timeZone,
             title = "Oneshot - not fired",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.NONE,
             each = 0
@@ -51,6 +52,7 @@ class RemindieExtTest {
             shot = shot2,
             timeZone = timeZone,
             title = "Oneshot - fired",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.NONE,
             each = 0
@@ -76,6 +78,7 @@ class RemindieExtTest {
             shot = shot3,
             timeZone = timeZone,
             title = "Oneshot - hourly 3",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.HOURLY,
             each = 3
@@ -100,6 +103,7 @@ class RemindieExtTest {
             shot = shot4,
             timeZone = timeZone,
             title = "Oneshot - daily 2",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.DAILY,
             each = 2
@@ -124,6 +128,7 @@ class RemindieExtTest {
             shot = shot5,
             timeZone = timeZone,
             title = "Oneshot - weekly 2",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.WEEKLY,
             each = 2
@@ -148,6 +153,7 @@ class RemindieExtTest {
             shot = shot6,
             timeZone = timeZone,
             title = "Oneshot - monthly 14",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.MONTHLY,
             each = 14
@@ -175,6 +181,7 @@ class RemindieExtTest {
             shot = LocalDateTime(2020, 11, 23, 22, 0),
             timeZone = timeZone,
             title = "Daily at 22:00",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.DAILY,
             each = 1
@@ -186,6 +193,7 @@ class RemindieExtTest {
             shot = LocalDateTime(2020, 10, 27, 1, 2),
             timeZone = timeZone,
             title = "Weekly at 12:13",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.WEEKLY,
             each = 1
@@ -197,6 +205,7 @@ class RemindieExtTest {
             shot = LocalDateTime(2020, 12, 11, 23, 34),
             timeZone = timeZone,
             title = "Monthly at 23:34",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.MONTHLY,
             each = 1

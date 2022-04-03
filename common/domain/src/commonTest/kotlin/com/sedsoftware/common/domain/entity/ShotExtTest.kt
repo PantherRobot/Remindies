@@ -23,6 +23,7 @@ class ShotExtTest {
             shot = shot,
             timeZone = currentTimeZone,
             title = "Daily at 18:33, next shot at 8/11/2020 at 18:33",
+            description = "Do something cool",
             type = RemindieType.CAFE,
             period = RemindiePeriod.DAILY,
             each = 1

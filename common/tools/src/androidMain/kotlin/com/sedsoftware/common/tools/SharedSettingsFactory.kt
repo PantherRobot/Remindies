@@ -1,4 +1,4 @@
-package com.sedsoftware.common.tools.shared
+package com.sedsoftware.common.tools
 
 import android.content.Context
 import android.content.SharedPreferences

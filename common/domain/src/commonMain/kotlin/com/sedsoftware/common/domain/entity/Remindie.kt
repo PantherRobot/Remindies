@@ -12,6 +12,7 @@ data class Remindie(
     val shot: LocalDateTime,
     val timeZone: TimeZone,
     val title: String,
+    val description: String,
     val type: RemindieType,
     val period: RemindiePeriod,
     val each: Int

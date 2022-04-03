@@ -19,6 +19,7 @@ object Stubs {
             shot = LocalDateTime(2020, 11, 6, 15, 35),
             timeZone = timeZone,
             title = "Oneshot - tomorrow",
+            description = "Do something cool",
             type = RemindieType.AIRPORT,
             period = RemindiePeriod.NONE,
             each = 0
@@ -30,6 +31,7 @@ object Stubs {
             shot = LocalDateTime(2020, 11, 5, 12, 0),
             timeZone = timeZone,
             title = "Each 3 hours from today starting at 12:00",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.HOURLY,
             each = 3
@@ -41,6 +43,7 @@ object Stubs {
             shot = LocalDateTime(2020, 11, 6, 8, 0),
             timeZone = timeZone,
             title = "Daily - from tomorrow at 8:00",
+            description = "Do something cool",
             type = RemindieType.CAFE,
             period = RemindiePeriod.DAILY,
             each = 1
@@ -52,6 +55,7 @@ object Stubs {
             shot = LocalDateTime(2020, 11, 6, 11, 22),
             timeZone = timeZone,
             title = "Daily - from tomorrow each 3 days at 11:22",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.DAILY,
             each = 3
@@ -63,6 +67,7 @@ object Stubs {
             shot = LocalDateTime(2020, 11, 7, 21, 30),
             timeZone = timeZone,
             title = "Each week from Saturday at 21:30",
+            description = "Do something cool",
             type = RemindieType.GYM,
             period = RemindiePeriod.WEEKLY,
             each = 1
@@ -74,6 +79,7 @@ object Stubs {
             shot = LocalDateTime(2020, 11, 8, 16, 0),
             timeZone = timeZone,
             title = "Each two weeks from Sunday at 16:00",
+            description = "Do something cool",
             type = RemindieType.DOCTOR,
             period = RemindiePeriod.WEEKLY,
             each = 2
@@ -85,6 +91,7 @@ object Stubs {
             shot = LocalDateTime(2020, 11, 8, 18, 0),
             timeZone = timeZone,
             title = "Pay rent each month at 18:00",
+            description = "Do something cool",
             type = RemindieType.PAY,
             period = RemindiePeriod.MONTHLY,
             each = 1
@@ -96,6 +103,7 @@ object Stubs {
             shot = LocalDateTime(2020, 12, 31, 23, 0),
             timeZone = timeZone,
             title = "Congratulations each New Year night ^-^ at 23:00",
+            description = "Do something cool",
             type = RemindieType.CALL,
             period = RemindiePeriod.YEARLY,
             each = 1
