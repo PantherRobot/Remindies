@@ -14,10 +14,10 @@ object Stubs {
 
     val remindiesInOwnTimeZone: List<Remindie> = listOf(
         Remindie(
-            timestamp = 1,
-            created = today,
-            shot = LocalDateTime(2020, 11, 6, 15, 35),
-            timeZone = timeZone,
+            createdTimestamp = 1,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 11, 6, 15, 35),
+            creationTimeZone = timeZone,
             title = "Oneshot - tomorrow",
             description = "Do something cool",
             type = RemindieType.AIRPORT,
@@ -26,10 +26,10 @@ object Stubs {
         ),
 
         Remindie(
-            timestamp = 2,
-            created = today,
-            shot = LocalDateTime(2020, 11, 5, 12, 0),
-            timeZone = timeZone,
+            createdTimestamp = 2,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 11, 5, 12, 0),
+            creationTimeZone = timeZone,
             title = "Each 3 hours from today starting at 12:00",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -38,10 +38,10 @@ object Stubs {
         ),
 
         Remindie(
-            timestamp = 3,
-            created = today,
-            shot = LocalDateTime(2020, 11, 6, 8, 0),
-            timeZone = timeZone,
+            createdTimestamp = 3,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 11, 6, 8, 0),
+            creationTimeZone = timeZone,
             title = "Daily - from tomorrow at 8:00",
             description = "Do something cool",
             type = RemindieType.CAFE,
@@ -50,10 +50,10 @@ object Stubs {
         ),
 
         Remindie(
-            timestamp = 4,
-            created = today,
-            shot = LocalDateTime(2020, 11, 6, 11, 22),
-            timeZone = timeZone,
+            createdTimestamp = 4,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 11, 6, 11, 22),
+            creationTimeZone = timeZone,
             title = "Daily - from tomorrow each 3 days at 11:22",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -62,10 +62,10 @@ object Stubs {
         ),
 
         Remindie(
-            timestamp = 5,
-            created = today,
-            shot = LocalDateTime(2020, 11, 7, 21, 30),
-            timeZone = timeZone,
+            createdTimestamp = 5,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 11, 7, 21, 30),
+            creationTimeZone = timeZone,
             title = "Each week from Saturday at 21:30",
             description = "Do something cool",
             type = RemindieType.GYM,
@@ -74,10 +74,10 @@ object Stubs {
         ),
 
         Remindie(
-            timestamp = 6,
-            created = today,
-            shot = LocalDateTime(2020, 11, 8, 16, 0),
-            timeZone = timeZone,
+            createdTimestamp = 6,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 11, 8, 16, 0),
+            creationTimeZone = timeZone,
             title = "Each two weeks from Sunday at 16:00",
             description = "Do something cool",
             type = RemindieType.DOCTOR,
@@ -86,10 +86,10 @@ object Stubs {
         ),
 
         Remindie(
-            timestamp = 7,
-            created = today,
-            shot = LocalDateTime(2020, 11, 8, 18, 0),
-            timeZone = timeZone,
+            createdTimestamp = 7,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 11, 8, 18, 0),
+            creationTimeZone = timeZone,
             title = "Pay rent each month at 18:00",
             description = "Do something cool",
             type = RemindieType.PAY,
@@ -98,10 +98,10 @@ object Stubs {
         ),
 
         Remindie(
-            timestamp = 8,
-            created = today,
-            shot = LocalDateTime(2020, 12, 31, 23, 0),
-            timeZone = timeZone,
+            createdTimestamp = 8,
+            createdDate = today,
+            targetTime = LocalDateTime(2020, 12, 31, 23, 0),
+            creationTimeZone = timeZone,
             title = "Congratulations each New Year night ^-^ at 23:00",
             description = "Do something cool",
             type = RemindieType.CALL,

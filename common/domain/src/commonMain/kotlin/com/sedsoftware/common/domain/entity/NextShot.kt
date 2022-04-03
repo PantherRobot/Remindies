@@ -2,8 +2,8 @@ package com.sedsoftware.common.domain.entity
 
 import kotlinx.datetime.LocalDateTime
 
-data class Shot(
+data class NextShot(
     val remindie: Remindie,
-    val planned: LocalDateTime,
+    val target: LocalDateTime,
     val isFired: Boolean
 )

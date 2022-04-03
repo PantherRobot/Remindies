@@ -21,10 +21,10 @@ class RemindieExtTest {
         val shot1 = LocalDateTime(2020, 11, 7, 18, 33)
 
         val remindie1 = Remindie(
-            timestamp = 1,
-            created = created1,
-            shot = shot1,
-            timeZone = timeZone,
+            createdTimestamp = 1,
+            createdDate = created1,
+            targetTime = shot1,
+            creationTimeZone = timeZone,
             title = "Oneshot - not fired",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -33,10 +33,10 @@ class RemindieExtTest {
         )
 
         assertEquals(
-            remindie1.toNearestShot(today1),
-            Shot(
+            remindie1.toNextShot(today1),
+            NextShot(
                 remindie = remindie1,
-                planned = shot1,
+                target = shot1,
                 isFired = false
             )
         )
@@ -47,10 +47,10 @@ class RemindieExtTest {
         val shot2 = LocalDateTime(2020, 11, 7, 18, 33)
 
         val remindie2 = Remindie(
-            timestamp = 2,
-            created = created2,
-            shot = shot2,
-            timeZone = timeZone,
+            createdTimestamp = 2,
+            createdDate = created2,
+            targetTime = shot2,
+            creationTimeZone = timeZone,
             title = "Oneshot - fired",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -59,10 +59,10 @@ class RemindieExtTest {
         )
 
         assertEquals(
-            remindie2.toNearestShot(today2),
-            Shot(
+            remindie2.toNextShot(today2),
+            NextShot(
                 remindie = remindie2,
-                planned = shot2,
+                target = shot2,
                 isFired = true
             )
         )
@@ -73,10 +73,10 @@ class RemindieExtTest {
         val shot3 = LocalDateTime(2020, 11, 7, 18, 33)
 
         val remindie3 = Remindie(
-            timestamp = 3,
-            created = created3,
-            shot = shot3,
-            timeZone = timeZone,
+            createdTimestamp = 3,
+            createdDate = created3,
+            targetTime = shot3,
+            creationTimeZone = timeZone,
             title = "Oneshot - hourly 3",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -85,10 +85,10 @@ class RemindieExtTest {
         )
 
         assertEquals(
-            remindie3.toNearestShot(today3),
-            Shot(
+            remindie3.toNextShot(today3),
+            NextShot(
                 remindie = remindie3,
-                planned = LocalDateTime(2020, 11, 8, 0, 33),
+                target = LocalDateTime(2020, 11, 8, 0, 33),
                 isFired = false
             )
         )
@@ -98,10 +98,10 @@ class RemindieExtTest {
         val shot4 = LocalDateTime(2020, 11, 7, 18, 33)
 
         val remindie4 = Remindie(
-            timestamp = 4,
-            created = created4,
-            shot = shot4,
-            timeZone = timeZone,
+            createdTimestamp = 4,
+            createdDate = created4,
+            targetTime = shot4,
+            creationTimeZone = timeZone,
             title = "Oneshot - daily 2",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -110,10 +110,10 @@ class RemindieExtTest {
         )
 
         assertEquals(
-            remindie4.toNearestShot(today4),
-            Shot(
+            remindie4.toNextShot(today4),
+            NextShot(
                 remindie = remindie4,
-                planned = LocalDateTime(2020, 11, 9, 18, 33),
+                target = LocalDateTime(2020, 11, 9, 18, 33),
                 isFired = false
             )
         )
@@ -123,10 +123,10 @@ class RemindieExtTest {
         val shot5 = LocalDateTime(2020, 11, 7, 18, 33)
 
         val remindie5 = Remindie(
-            timestamp = 5,
-            created = created5,
-            shot = shot5,
-            timeZone = timeZone,
+            createdTimestamp = 5,
+            createdDate = created5,
+            targetTime = shot5,
+            creationTimeZone = timeZone,
             title = "Oneshot - weekly 2",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -135,10 +135,10 @@ class RemindieExtTest {
         )
 
         assertEquals(
-            remindie5.toNearestShot(today5),
-            Shot(
+            remindie5.toNextShot(today5),
+            NextShot(
                 remindie = remindie5,
-                planned = LocalDateTime(2020, 11, 21, 18, 33),
+                target = LocalDateTime(2020, 11, 21, 18, 33),
                 isFired = false
             )
         )
@@ -148,10 +148,10 @@ class RemindieExtTest {
         val shot6 = LocalDateTime(2020, 11, 7, 18, 33)
 
         val remindie6 = Remindie(
-            timestamp = 6,
-            created = created6,
-            shot = shot6,
-            timeZone = timeZone,
+            createdTimestamp = 6,
+            createdDate = created6,
+            targetTime = shot6,
+            creationTimeZone = timeZone,
             title = "Oneshot - monthly 14",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -160,10 +160,10 @@ class RemindieExtTest {
         )
 
         assertEquals(
-            remindie6.toNearestShot(today6),
-            Shot(
+            remindie6.toNextShot(today6),
+            NextShot(
                 remindie = remindie6,
-                planned = LocalDateTime(2022, 1, 7, 18, 33),
+                target = LocalDateTime(2022, 1, 7, 18, 33),
                 isFired = false
             )
         )
@@ -176,10 +176,10 @@ class RemindieExtTest {
         val today = LocalDateTime(2020, 11, 23, 18, 0)
 
         val remindie1 = Remindie(
-            timestamp = 1,
-            created = created,
-            shot = LocalDateTime(2020, 11, 23, 22, 0),
-            timeZone = timeZone,
+            createdTimestamp = 1,
+            createdDate = created,
+            targetTime = LocalDateTime(2020, 11, 23, 22, 0),
+            creationTimeZone = timeZone,
             title = "Daily at 22:00",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -188,10 +188,10 @@ class RemindieExtTest {
         )
 
         val remindie2 = Remindie(
-            timestamp = 2,
-            created = created,
-            shot = LocalDateTime(2020, 10, 27, 1, 2),
-            timeZone = timeZone,
+            createdTimestamp = 2,
+            createdDate = created,
+            targetTime = LocalDateTime(2020, 10, 27, 1, 2),
+            creationTimeZone = timeZone,
             title = "Weekly at 12:13",
             description = "Do something cool",
             type = RemindieType.CALL,
@@ -200,10 +200,10 @@ class RemindieExtTest {
         )
 
         val remindie3 = Remindie(
-            timestamp = 3,
-            created = created,
-            shot = LocalDateTime(2020, 12, 11, 23, 34),
-            timeZone = timeZone,
+            createdTimestamp = 3,
+            createdDate = created,
+            targetTime = LocalDateTime(2020, 12, 11, 23, 34),
+            creationTimeZone = timeZone,
             title = "Monthly at 23:34",
             description = "Do something cool",
             type = RemindieType.CALL,

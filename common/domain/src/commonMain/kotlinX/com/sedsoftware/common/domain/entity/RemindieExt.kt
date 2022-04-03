@@ -6,48 +6,48 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.plusPeriod
 import kotlinx.datetime.toLocalDateTime
 
-fun Remindie.toNearestShot(today: LocalDateTime = Clock.System.now().toLocalDateTime(timeZone)): Shot {
+fun Remindie.toNextShot(today: LocalDateTime = Clock.System.now().toLocalDateTime(creationTimeZone)): NextShot {
 
     // Not fired yet
-    if (shot > today) {
-        return Shot(remindie = this, planned = shot, isFired = false)
+    if (targetTime > today) {
+        return NextShot(remindie = this, target = targetTime, isFired = false)
     }
 
     // Already fired for oneshot
     if (period == RemindiePeriod.NONE) {
-        return Shot(remindie = this, planned = shot, isFired = true)
+        return NextShot(remindie = this, target = targetTime, isFired = true)
     }
 
-    var closest: LocalDateTime = shot
+    var closest: LocalDateTime = targetTime
 
     while (closest < today) {
-        closest = closest.plusPeriod(period, each, timeZone)
+        closest = closest.plusPeriod(period, each, creationTimeZone)
     }
 
-    return Shot(remindie = this, planned = closest, isFired = false)
+    return NextShot(remindie = this, target = closest, isFired = false)
 }
 
-fun Remindie.getShots(from: LocalDateTime, to: LocalDateTime, today: LocalDateTime): List<Shot> {
-    val result = mutableListOf<Shot>()
+fun Remindie.getShots(from: LocalDateTime, to: LocalDateTime, today: LocalDateTime): List<NextShot> {
+    val result = mutableListOf<NextShot>()
 
-    if (shot > to) {
+    if (targetTime > to) {
         return result
     }
 
-    var temp = shot
+    var temp = targetTime
 
     while (temp <= to) {
-        if (temp in from..to && temp > created) {
+        if (temp in from..to && temp > createdDate) {
             result.add(
-                Shot(
+                NextShot(
                     remindie = this,
-                    planned = temp,
+                    target = temp,
                     isFired = temp < today
                 )
             )
         }
 
-        temp = temp.plusPeriod(period, each, timeZone)
+        temp = temp.plusPeriod(period, each, creationTimeZone)
     }
 
     return result

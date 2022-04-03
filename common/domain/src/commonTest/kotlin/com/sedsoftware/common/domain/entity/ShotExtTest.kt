@@ -18,10 +18,10 @@ class ShotExtTest {
         val shot = LocalDateTime(2020, 11, 7, 18, 33)
 
         val remindie = Remindie(
-            timestamp = 1234,
-            created = today,
-            shot = shot,
-            timeZone = currentTimeZone,
+            createdTimestamp = 1234,
+            createdDate = today,
+            targetTime = shot,
+            creationTimeZone = currentTimeZone,
             title = "Daily at 18:33, next shot at 8/11/2020 at 18:33",
             description = "Do something cool",
             type = RemindieType.CAFE,
@@ -29,15 +29,15 @@ class ShotExtTest {
             each = 1
         )
 
-        val initialShot = remindie.toNearestShot(today = today)
-        val newTimeZoneShot = remindie.toNearestShot(today = today).updateTimeZone(newTimeZone)
+        val initialShot = remindie.toNextShot(today = today)
+        val newTimeZoneShot = remindie.toNextShot(today = today).updateTimeZone(newTimeZone)
 
         // initial
-        assertEquals(initialShot.planned.hour, 18)
-        assertEquals(initialShot.planned.minute, 33)
+        assertEquals(initialShot.target.hour, 18)
+        assertEquals(initialShot.target.minute, 33)
 
         // updated
-        assertEquals(newTimeZoneShot.planned.hour, 19)
-        assertEquals(newTimeZoneShot.planned.minute, 33)
+        assertEquals(newTimeZoneShot.target.hour, 19)
+        assertEquals(newTimeZoneShot.target.minute, 33)
     }
 }
