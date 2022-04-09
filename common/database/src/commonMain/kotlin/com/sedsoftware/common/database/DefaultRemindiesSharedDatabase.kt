@@ -5,6 +5,8 @@ import com.badoo.reaktive.completable.Completable
 import com.badoo.reaktive.maybe.Maybe
 import com.badoo.reaktive.observable.Observable
 import com.badoo.reaktive.observable.autoConnect
+import com.badoo.reaktive.observable.firstOrComplete
+import com.badoo.reaktive.observable.firstOrDefault
 import com.badoo.reaktive.observable.firstOrError
 import com.badoo.reaktive.observable.map
 import com.badoo.reaktive.observable.observable
@@ -38,6 +40,11 @@ class DefaultRemindiesSharedDatabase(driver: Single<SqlDriver>) : RemindiesShare
     override fun observeAll(): Observable<List<RemindieEntity>> =
         query(RemindieDatabaseQueries::selectAll)
             .observe { it.executeAsList() }
+
+    override fun getAll(): Single<List<RemindieEntity>> =
+        query(RemindieDatabaseQueries::selectAll)
+            .observe { it.executeAsList() }
+            .firstOrDefault(emptyList())
 
     override fun select(id: Long): Maybe<RemindieEntity> =
         query { it.select(id) }

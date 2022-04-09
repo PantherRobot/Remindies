@@ -12,6 +12,8 @@ kotlin {
 
                 implementation(Deps.KMM.MultiplatformSettings.settings)
                 implementation(Deps.KMM.MultiplatformSettings.test)
+
+                implementation(Deps.Badoo.Reaktive.reaktiveTesting)
             }
         }
 

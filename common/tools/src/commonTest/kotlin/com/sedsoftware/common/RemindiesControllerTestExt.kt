@@ -4,12 +4,15 @@ import com.sedsoftware.common.domain.entity.NextShot
 import com.sedsoftware.common.tools.RemindiesAlarmManager
 
 interface ShotChecker {
-    fun isScheduled(shot: NextShot)
+    val nearestShot: NextShot?
 }
 
 class RemindiesAlarmManagerTest : RemindiesAlarmManager, ShotChecker {
 
     private val shots: MutableSet<NextShot> = mutableSetOf()
+
+    override val nearestShot: NextShot?
+        get() = shots.minByOrNull { it.target }
 
     override fun schedule(shot: NextShot) {
         shots.add(shot)
@@ -17,9 +20,5 @@ class RemindiesAlarmManagerTest : RemindiesAlarmManager, ShotChecker {
 
     override fun cancel(shot: NextShot) {
         shots.remove(shot)
-    }
-
-    override fun isScheduled(shot: NextShot) {
-        shots.contains(shot)
     }
 }

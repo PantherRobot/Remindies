@@ -37,7 +37,7 @@ fun Remindie.getShots(from: LocalDateTime, to: LocalDateTime, today: LocalDateTi
     var temp = targetTime
 
     while (temp <= to) {
-        if (temp in from..to && temp > createdDate) {
+        if (temp in from..to) {
             result.add(
                 NextShot(
                     remindie = this,

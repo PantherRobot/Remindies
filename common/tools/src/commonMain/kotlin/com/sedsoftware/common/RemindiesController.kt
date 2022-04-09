@@ -1,13 +1,15 @@
 package com.sedsoftware.common
 
 import com.badoo.reaktive.completable.Completable
+import com.badoo.reaktive.completable.andThen
 import com.badoo.reaktive.completable.completableFromFunction
 import com.badoo.reaktive.completable.subscribeOn
 import com.badoo.reaktive.observable.Observable
-import com.badoo.reaktive.observable.flatMapCompletable
 import com.badoo.reaktive.observable.map
 import com.badoo.reaktive.observable.subscribeOn
+import com.badoo.reaktive.scheduler.Scheduler
 import com.badoo.reaktive.scheduler.ioScheduler
+import com.badoo.reaktive.single.flatMapCompletable
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.sedsoftware.common.database.RemindieEntity
 import com.sedsoftware.common.database.RemindiesSharedDatabase
@@ -24,6 +26,8 @@ import com.sedsoftware.common.tools.RemindiesTypeChecker
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.getDayEnd
+import kotlinx.datetime.getDayStart
 import kotlinx.datetime.getMonthEnd
 import kotlinx.datetime.getMonthStart
 import kotlinx.datetime.getWeekEnd
@@ -40,63 +44,65 @@ import kotlin.time.ExperimentalTime
 class RemindiesController constructor(
     private val database: RemindiesSharedDatabase,
     private val manager: RemindiesAlarmManager,
-    private val settings: RemindiesSharedSettings
+    private val settings: RemindiesSharedSettings,
+    private val scheduler: Scheduler = ioScheduler,
+    private val timeZone: TimeZone = TimeZone.currentSystemDefault(),
+    private val today: LocalDateTime = Clock.System.now().toLocalDateTime(timeZone)
 ) {
 
-    private val timeZone: TimeZone = TimeZone.currentSystemDefault()
-    private val today: LocalDateTime = Clock.System.now().toLocalDateTime(timeZone)
     private val typeChecker: RemindiesTypeChecker = RemindiesTypeChecker()
 
     fun add(title: String, description: String, target: LocalDateTime, period: RemindiePeriod, each: Int): Completable =
-        completableFromFunction {
-            database.insert(
-                createdTimestamp = today.toInstant(timeZone).toEpochMilliseconds(),
-                createdDate = today.toString(),
-                targetTime = target.toString(),
-                creationTimeZone = timeZone.id,
-                title = title,
-                description = description,
-                type = RemindieType.toString(typeChecker.getType(title)),
-                period = period.str,
-                each = each
-            )
-        }
-            .subscribeOn(ioScheduler)
+        removeNearestFromManager()
+            .andThen(addToDb(title, description, target, period, each))
+            .andThen(addNearestToManager())
+            .subscribeOn(scheduler)
 
     fun remove(remindie: Remindie): Completable =
-        completableFromFunction {
-            val next: NextShot = remindie.toNextShot(today)
-            manager.cancel(next)
-            database.delete(remindie.id)
-        }
-            .subscribeOn(ioScheduler)
-
-    fun rescheduleNext(): Completable =
-        database.observeAll()
-            .flatMapCompletable(::getAllAndReschedule)
-            .subscribeOn(ioScheduler)
+        removeNearestFromManager()
+            .andThen(removeFromDb(remindie))
+            .andThen(addNearestToManager())
+            .subscribeOn(scheduler)
 
     fun getShotsForToday(): Observable<List<NextShot>> =
         database.observeAll()
             .map { entities: List<RemindieEntity> ->
                 entities
-                    .map { toNextShot(it) }
-                    .filter { !it.isFired }
-                    .filter { it.target.sameDayAs(today) }
+                    .map { toRemindie(it) }
+                    .fold(mutableListOf<NextShot>()) { acc, remindie ->
+                        acc.apply {
+                            addAll(
+                                remindie.getShots(
+                                    from = today.getDayStart(),
+                                    to = today.getDayEnd(),
+                                    today = today
+                                )
+                            )
+                        }
+                    }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
     fun getShotsForDate(date: LocalDateTime): Observable<List<NextShot>> =
         database.observeAll()
             .map { entities: List<RemindieEntity> ->
                 entities
-                    .map { toNextShot(it) }
-                    .filter { !it.isFired }
-                    .filter { it.target.sameDayAs(date) }
+                    .map { toRemindie(it) }
+                    .fold(mutableListOf<NextShot>()) { acc, remindie ->
+                        acc.apply {
+                            addAll(
+                                remindie.getShots(
+                                    from = date.getDayStart(),
+                                    to = date.getDayEnd(),
+                                    today = today
+                                )
+                            )
+                        }
+                    }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
     fun getShotsForCurrentWeek(): Observable<List<NextShot>> =
         database.observeAll()
@@ -116,7 +122,7 @@ class RemindiesController constructor(
                     }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
     fun getShotsForWeek(date: LocalDateTime): Observable<List<NextShot>> =
         database.observeAll()
@@ -136,7 +142,7 @@ class RemindiesController constructor(
                     }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
     fun getShotsForCurrentMonth(): Observable<List<NextShot>> =
         database.observeAll()
@@ -156,7 +162,7 @@ class RemindiesController constructor(
                     }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
     fun getShotsForMonth(date: LocalDateTime): Observable<List<NextShot>> =
         database.observeAll()
@@ -176,7 +182,7 @@ class RemindiesController constructor(
                     }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
     fun getShotsForCurrentYear(): Observable<List<NextShot>> =
         database.observeAll()
@@ -196,7 +202,7 @@ class RemindiesController constructor(
                     }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
     fun getShotsForYear(date: LocalDateTime): Observable<List<NextShot>> =
         database.observeAll()
@@ -216,25 +222,64 @@ class RemindiesController constructor(
                     }
                     .sortedBy { it.target }
             }
-            .subscribeOn(ioScheduler)
+            .subscribeOn(scheduler)
 
-    private fun getAllAndReschedule(list: List<RemindieEntity>): Completable =
-        completableFromFunction {
-            val shots = list
-                .map { toNextShot(it) }
-                .filter { !it.isFired }
-                .sortedBy { it.target }
 
-            if (shots.isNotEmpty()) {
-                val next = if (settings.timeZoneDependent) {
-                    shots.first().updateTimeZone(timeZone)
-                } else {
-                    shots.first()
+    private fun addToDb(title: String, description: String, target: LocalDateTime, period: RemindiePeriod, each: Int): Completable =
+        database.insert(
+            createdTimestamp = today.toInstant(timeZone).toEpochMilliseconds(),
+            createdDate = today.toString(),
+            targetTime = target.toString(),
+            creationTimeZone = timeZone.id,
+            title = title,
+            description = description,
+            type = RemindieType.toString(typeChecker.getType(title)),
+            period = period.str,
+            each = each
+        )
+
+    private fun removeFromDb(remindie: Remindie): Completable =
+        database.delete(remindie.id)
+
+    private fun addNearestToManager(): Completable =
+        database.getAll()
+            .flatMapCompletable { entities: List<RemindieEntity> ->
+                completableFromFunction {
+                    val shots = entities
+                        .map { toNextShot(it) }
+                        .filter { !it.isFired }
+                        .sortedBy { it.target }
+
+                    if (shots.isNotEmpty()) {
+                        val next = if (settings.timeZoneDependent) {
+                            shots.first().updateTimeZone(timeZone)
+                        } else {
+                            shots.first()
+                        }
+                        manager.schedule(next)
+                    }
                 }
-
-                manager.schedule(next)
             }
-        }
+
+    private fun removeNearestFromManager(): Completable =
+        database.getAll()
+            .flatMapCompletable { entities: List<RemindieEntity> ->
+                completableFromFunction {
+                    val shots = entities
+                        .map { toNextShot(it) }
+                        .filter { !it.isFired }
+                        .sortedBy { it.target }
+
+                    if (shots.isNotEmpty()) {
+                        val next = if (settings.timeZoneDependent) {
+                            shots.first().updateTimeZone(timeZone)
+                        } else {
+                            shots.first()
+                        }
+                        manager.cancel(next)
+                    }
+                }
+            }
 
     private fun toRemindie(entity: RemindieEntity): Remindie =
         Remindie(
