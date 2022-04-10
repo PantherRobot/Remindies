@@ -33,4 +33,5 @@ dependencies {
     implementation(Deps.ArkIvanov.Decompose.extensionsJetpack)
     implementation(Deps.AndroidX.AppCompat.appCompat)
     implementation(Deps.AndroidX.Activity.activityCompose)
+    implementation(Deps.AndroidX.Constraint.constraint)
 }

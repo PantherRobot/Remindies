@@ -39,6 +39,10 @@ object Deps {
         object Preferences {
             const val preferences = "androidx.preference:preference-ktx:1.2.0"
         }
+
+        object Constraint {
+            const val constraint = "androidx.constraintlayout:constraintlayout:2.1.3"
+        }
     }
 
     object ArkIvanov {
