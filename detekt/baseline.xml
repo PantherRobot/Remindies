@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongParameterList:RemindiesSharedDatabase.kt$RemindiesSharedDatabase$(createdTimestamp: Long, createdDate: String, targetTime: String, creationTimeZone: String, title: String, description: String, type: String, period: String, each: Int)</ID>
+    <ID>LongParameterList:TestRemindiesSharedDatabase.kt$TestRemindiesSharedDatabase.Testing$(timestamp: Long, created: String, shot: String, timeZone: String, title: String, description: String, type: String, period: String, each: Int)</ID>
+    <ID>MaxLineLength:DefaultRemindiesSharedDatabase.kt$DefaultRemindiesSharedDatabase$override</ID>
+    <ID>MaxLineLength:RemindiesSharedDatabase.kt$RemindiesSharedDatabase$fun</ID>
+    <ID>MaxLineLength:TestRemindiesSharedDatabase.kt$TestRemindiesSharedDatabase$override</ID>
+    <ID>MaxLineLength:TestRemindiesSharedDatabase.kt$TestRemindiesSharedDatabase.Testing$fun</ID>
+    <ID>TooManyFunctions:LocalDateTimeExt.kt$kotlinx.datetime.LocalDateTimeExt.kt</ID>
+    <ID>TooManyFunctions:RemindiesController.kt$RemindiesController</ID>
+  </CurrentIssues>
+</SmellBaseline>

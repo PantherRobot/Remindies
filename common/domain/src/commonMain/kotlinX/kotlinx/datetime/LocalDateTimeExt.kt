@@ -111,6 +111,7 @@ fun LocalDateTime.plusPeriod(period: RemindiePeriod, each: Int, timeZone: TimeZo
 fun LocalDateTime.moveToZone(from: TimeZone, to: TimeZone): LocalDateTime =
     toInstant(from).toLocalDateTime(to)
 
+@Suppress("ComplexMethod")
 private fun DayOfWeek.getOrdinal(fromSunday: Boolean): Int =
     when (this) {
         DayOfWeek.MONDAY -> if (fromSunday) 2 else 1

@@ -11,3 +11,4 @@
 local.properties
 /buildSrc/build
 /buildSrc/buildSrc/build/
+/detekt/reports

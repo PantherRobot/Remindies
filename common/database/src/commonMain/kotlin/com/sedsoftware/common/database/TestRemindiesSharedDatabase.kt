@@ -82,11 +82,5 @@ class TestRemindiesSharedDatabase(
         private fun updateItems(func: (Map<Long, RemindieEntity>) -> Map<Long, RemindieEntity>) {
             itemsSubject.onNext(func(itemsSubject.value))
         }
-
-        private fun updateItem(id: Long, func: (RemindieEntity) -> RemindieEntity) {
-            updateItems {
-                it + (id to it.getValue(id).let(func))
-            }
-        }
     }
 }
