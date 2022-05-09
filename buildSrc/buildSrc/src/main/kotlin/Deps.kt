@@ -88,7 +88,7 @@ object Deps {
 
     object KMM {
         object MultiplatformSettings {
-            private const val VERSION = "0.8.1"
+            private const val VERSION = "0.9"
 
             const val settings = "com.russhwolf:multiplatform-settings:$VERSION"
             const val test = "com.russhwolf:multiplatform-settings-test:$VERSION"
