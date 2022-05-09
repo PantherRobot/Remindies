@@ -47,7 +47,7 @@ object Deps {
 
     object ArkIvanov {
         object MVIKotlin {
-            private const val VERSION = "3.0.0-beta01"
+            private const val VERSION = "3.0.0-beta02"
             const val rx = "com.arkivanov.mvikotlin:rx:$VERSION"
             const val mvikotlin = "com.arkivanov.mvikotlin:mvikotlin:$VERSION"
             const val mvikotlinMain = "com.arkivanov.mvikotlin:mvikotlin-main:$VERSION"
@@ -57,7 +57,7 @@ object Deps {
         }
 
         object Decompose {
-            private const val VERSION = "0.5.2"
+            private const val VERSION = "0.6.0"
             const val decompose = "com.arkivanov.decompose:decompose:$VERSION"
             const val extensionsJetbrains = "com.arkivanov.decompose:extensions-compose-jetbrains:$VERSION"
             const val extensionsJetpack = "com.arkivanov.decompose:extensions-compose-jetpack:$VERSION"
@@ -92,7 +92,7 @@ object Deps {
 
     object KMM {
         object MultiplatformSettings {
-            private const val VERSION = "0.8.1"
+            private const val VERSION = "0.9"
 
             const val settings = "com.russhwolf:multiplatform-settings:$VERSION"
             const val test = "com.russhwolf:multiplatform-settings-test:$VERSION"
