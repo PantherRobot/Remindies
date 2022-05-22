@@ -1,4 +1,4 @@
-package com.sedsoftware.common.component.main.integration
+package com.sedsoftware.common.component.create.integration
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
@@ -14,39 +14,40 @@ import com.badoo.reaktive.observable.subscribe
 import com.badoo.reaktive.observable.subscribeOn
 import com.badoo.reaktive.scheduler.mainScheduler
 import com.sedsoftware.common.RemindiesController
-import com.sedsoftware.common.component.main.RemindiesMain
-import com.sedsoftware.common.component.main.RemindiesMain.Model
-import com.sedsoftware.common.component.main.RemindiesMain.Output
-import com.sedsoftware.common.component.main.infrastructure.RemindiesMainController
-import com.sedsoftware.common.component.main.integration.Mapper.stateToModel
-import com.sedsoftware.common.component.main.store.MainStore.Intent
-import com.sedsoftware.common.component.main.store.MainStore.Label
-import com.sedsoftware.common.component.main.store.MainStoreFactory
+import com.sedsoftware.common.component.create.RemindiesCreate
+import com.sedsoftware.common.component.create.RemindiesCreate.Model
+import com.sedsoftware.common.component.create.RemindiesCreate.Output
+import com.sedsoftware.common.component.create.infrastructure.RemindiesCreationController
+import com.sedsoftware.common.component.create.integration.Mapper.stateToModel
+import com.sedsoftware.common.component.create.store.CreationStore.Intent
+import com.sedsoftware.common.component.create.store.CreationStore.Label
+import com.sedsoftware.common.component.create.store.CreationStoreFactory
 import com.sedsoftware.common.database.RemindiesSharedDatabase
-import com.sedsoftware.common.domain.entity.Remindie
+import com.sedsoftware.common.domain.type.RemindiePeriod
 import com.sedsoftware.common.tools.RemindiesAlarmManager
 import com.sedsoftware.common.tools.RemindiesSharedSettings
+import kotlinx.datetime.LocalDateTime
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Suppress("OPT_IN_USAGE")
-class MainComponent(
+class CreationComponent(
     private val componentContext: ComponentContext,
     private val storeFactory: StoreFactory,
     private val output: Consumer<Output>,
     database: RemindiesSharedDatabase,
     manager: RemindiesAlarmManager,
     settings: RemindiesSharedSettings
-) : RemindiesMain, ComponentContext by componentContext {
+) : RemindiesCreate, ComponentContext by componentContext {
 
     private val baseController: RemindiesController =
         RemindiesController(database, manager, settings)
 
     private val store =
         instanceKeeper.getStore {
-            MainStoreFactory(
+            CreationStoreFactory(
                 storeFactory = storeFactory,
-                controller = RemindiesMainController(baseController)
+                controller = RemindiesCreationController(baseController)
             ).create()
         }
 
@@ -55,6 +56,7 @@ class MainComponent(
             .subscribeOn(mainScheduler)
             .subscribe { label ->
                 when (label) {
+                    is Label.RemindieCreated -> output(Output.RemindieCreated)
                     is Label.ErrorCaught -> output(Output.ErrorCaught(label.throwable))
                 }
             }
@@ -66,13 +68,27 @@ class MainComponent(
 
     override val models: Value<Model> = store.asValue().map(stateToModel)
 
-    override fun onAddItemRequested() {
-        output(Output.CreatorRequested)
+    override fun onTitleTextChanged(text: String) {
+        store.accept(Intent.TitleInputAvailable(text))
     }
 
-    override fun onItemDeleted(item: Remindie) {
-        store.accept(Intent.DeleteRemindie(item))
+    override fun onDescriptionTextChanged(text: String) {
+        store.accept(Intent.DescriptionInputAvailable(text))
     }
 
+    override fun onTargetSelected(target: LocalDateTime) {
+        store.accept(Intent.TargetDateSelected(target))
+    }
 
+    override fun onPeriodSelected(period: RemindiePeriod) {
+        store.accept(Intent.PeriodSelected(period))
+    }
+
+    override fun onPeriodValueSelected(value: Int) {
+        store.accept(Intent.PeriodValueSelected(value))
+    }
+
+    override fun onSaveRequested() {
+        store.accept(Intent.Save)
+    }
 }

@@ -19,6 +19,7 @@ interface RemindiesMain {
     )
 
     sealed class Output {
-        object RequestRemindieCreator : Output()
+        object CreatorRequested : Output()
+        data class ErrorCaught(val throwable: Throwable) : Output()
     }
 }
