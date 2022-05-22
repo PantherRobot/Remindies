@@ -5,5 +5,5 @@ import com.sedsoftware.common.domain.type.RemindiePeriod
 import kotlinx.datetime.LocalDateTime
 
 interface CreationController {
-    fun add(title: String, description: String, target: LocalDateTime?, period: RemindiePeriod, each: Int): Completable
+    fun add(title: String, description: String, target: LocalDateTime, period: RemindiePeriod, each: Int): Completable
 }

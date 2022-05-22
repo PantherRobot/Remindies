@@ -23,7 +23,7 @@ interface RemindiesCreate {
     data class Model(
         val title: String,
         val description: String,
-        val target: LocalDateTime,
+        val target: LocalDateTime?,
         val period: RemindiePeriod,
         val each: Int,
         val saveEnabled: Boolean

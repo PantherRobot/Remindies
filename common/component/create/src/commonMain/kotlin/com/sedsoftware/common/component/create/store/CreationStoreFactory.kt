@@ -39,7 +39,7 @@ internal class CreationStoreFactory(
                 onIntent<Intent.PeriodValueSelected> { dispatch(Msg.PeriodEachSelected(it.value)) }
 
                 onIntent<Intent.Save> {
-                    controller.add(state.title, state.description, state.target, state.period, state.each)
+                    controller.add(state.title, state.description, state.target!!, state.period, state.each)
                         .subscribeOn(ioScheduler)
                         .observeOn(mainScheduler)
                         .subscribeScoped()
@@ -76,5 +76,4 @@ internal class CreationStoreFactory(
         data class PeriodSelected(val period: RemindiePeriod) : Msg
         data class PeriodEachSelected(val each: Int) : Msg
     }
-
 }
