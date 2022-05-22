@@ -3,6 +3,7 @@ package com.sedsoftware.common.component.create.store
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveExecutorFactory
+import com.badoo.reaktive.completable.doOnAfterError
 import com.badoo.reaktive.completable.observeOn
 import com.badoo.reaktive.completable.subscribeOn
 import com.badoo.reaktive.scheduler.ioScheduler
@@ -42,7 +43,8 @@ internal class CreationStoreFactory(
                     controller.add(state.title, state.description, state.target!!, state.period, state.each)
                         .subscribeOn(ioScheduler)
                         .observeOn(mainScheduler)
-                        .subscribeScoped()
+                        .doOnAfterError { publish(Label.ErrorCaught(it)) }
+                        .subscribeScoped { publish(Label.RemindieCreated) }
                 }
             },
             reducer = { msg ->

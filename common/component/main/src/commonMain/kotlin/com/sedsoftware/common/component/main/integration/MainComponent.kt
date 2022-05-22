@@ -3,11 +3,16 @@ package com.sedsoftware.common.component.main.integration
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.core.store.asValue
+import com.arkivanov.mvikotlin.extensions.reaktive.labels
 import com.badoo.reaktive.base.Consumer
 import com.badoo.reaktive.base.invoke
+import com.badoo.reaktive.observable.subscribe
+import com.badoo.reaktive.observable.subscribeOn
+import com.badoo.reaktive.scheduler.mainScheduler
 import com.sedsoftware.common.RemindiesController
 import com.sedsoftware.common.component.main.RemindiesMain
 import com.sedsoftware.common.component.main.RemindiesMain.Model
@@ -15,6 +20,7 @@ import com.sedsoftware.common.component.main.RemindiesMain.Output
 import com.sedsoftware.common.component.main.infrastructure.RemindiesMainController
 import com.sedsoftware.common.component.main.integration.Mapper.stateToModel
 import com.sedsoftware.common.component.main.store.MainStore.Intent
+import com.sedsoftware.common.component.main.store.MainStore.Label
 import com.sedsoftware.common.component.main.store.MainStoreFactory
 import com.sedsoftware.common.database.RemindiesSharedDatabase
 import com.sedsoftware.common.domain.entity.Remindie
@@ -44,13 +50,29 @@ class MainComponent(
             ).create()
         }
 
+    init {
+        val disposable = store.labels
+            .subscribeOn(mainScheduler)
+            .subscribe { label ->
+                when (label) {
+                    is Label.ErrorCaught -> output(Output.ErrorCaught(label.throwable))
+                }
+            }
+
+        lifecycle.doOnDestroy {
+            disposable.dispose()
+        }
+    }
+
     override val models: Value<Model> = store.asValue().map(stateToModel)
 
     override fun onAddItemRequested() {
-        output(Output.RequestRemindieCreator)
+        output(Output.CreatorRequested)
     }
 
     override fun onItemDeleted(item: Remindie) {
         store.accept(Intent.DeleteRemindie(item))
     }
+
+
 }

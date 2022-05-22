@@ -3,10 +3,16 @@ package com.sedsoftware.common.component.create.integration
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.core.store.asValue
+import com.arkivanov.mvikotlin.extensions.reaktive.labels
 import com.badoo.reaktive.base.Consumer
+import com.badoo.reaktive.base.invoke
+import com.badoo.reaktive.observable.subscribe
+import com.badoo.reaktive.observable.subscribeOn
+import com.badoo.reaktive.scheduler.mainScheduler
 import com.sedsoftware.common.RemindiesController
 import com.sedsoftware.common.component.create.RemindiesCreate
 import com.sedsoftware.common.component.create.RemindiesCreate.Model
@@ -14,6 +20,7 @@ import com.sedsoftware.common.component.create.RemindiesCreate.Output
 import com.sedsoftware.common.component.create.infrastructure.RemindiesCreationController
 import com.sedsoftware.common.component.create.integration.Mapper.stateToModel
 import com.sedsoftware.common.component.create.store.CreationStore.Intent
+import com.sedsoftware.common.component.create.store.CreationStore.Label
 import com.sedsoftware.common.component.create.store.CreationStoreFactory
 import com.sedsoftware.common.database.RemindiesSharedDatabase
 import com.sedsoftware.common.domain.type.RemindiePeriod
@@ -43,6 +50,21 @@ class CreationComponent(
                 controller = RemindiesCreationController(baseController)
             ).create()
         }
+
+    init {
+        val disposable = store.labels
+            .subscribeOn(mainScheduler)
+            .subscribe { label ->
+                when (label) {
+                    is Label.RemindieCreated -> output(Output.RemindieCreated)
+                    is Label.ErrorCaught -> output(Output.ErrorCaught(label.throwable))
+                }
+            }
+
+        lifecycle.doOnDestroy {
+            disposable.dispose()
+        }
+    }
 
     override val models: Value<Model> = store.asValue().map(stateToModel)
 

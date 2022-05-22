@@ -4,6 +4,7 @@ import com.arkivanov.mvikotlin.core.store.SimpleBootstrapper
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveExecutorFactory
+import com.badoo.reaktive.completable.doOnAfterError
 import com.badoo.reaktive.completable.observeOn
 import com.badoo.reaktive.completable.subscribeOn
 import com.badoo.reaktive.observable.doOnAfterError
@@ -39,7 +40,10 @@ internal class MainStoreFactory(
                         .subscribeOn(ioScheduler)
                         .observeOn(mainScheduler)
                         .doOnAfterSubscribe { dispatch(Msg.ShotsLoadingStarted) }
-                        .doOnAfterError { dispatch(Msg.ShotsLoadingFailed(it)) }
+                        .doOnAfterError {
+                            dispatch(Msg.ShotsLoadingFailed(it))
+                            publish(Label.ErrorCaught(it))
+                        }
                         .subscribeScoped { dispatch(Msg.ShotsLoadingCompleted(it)) }
                 }
 
@@ -47,6 +51,7 @@ internal class MainStoreFactory(
                     controller.delete(intent.remindie)
                         .subscribeOn(ioScheduler)
                         .observeOn(mainScheduler)
+                        .doOnAfterError { publish(Label.ErrorCaught(it)) }
                         .subscribeScoped()
                 }
             },

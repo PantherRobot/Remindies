@@ -28,6 +28,7 @@ internal interface CreationStore : Store<Intent, State, Label> {
     )
 
     sealed class Label {
-        data class ErrorCaught(val exception: Exception) : Label()
+        object RemindieCreated : Label()
+        data class ErrorCaught(val throwable: Throwable) : Label()
     }
 }

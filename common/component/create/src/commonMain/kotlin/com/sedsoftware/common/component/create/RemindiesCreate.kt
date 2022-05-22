@@ -30,6 +30,7 @@ interface RemindiesCreate {
     )
 
     sealed class Output {
+        data class ErrorCaught(val throwable: Throwable) : Output()
         object RemindieCreated : Output()
     }
 }
