@@ -9,7 +9,7 @@ import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Suppress("OPT_IN_USAGE")
-class RemindiesCreationController(
+internal class RemindiesCreationController(
     private val controller: RemindiesController
 ) : CreationController {
 

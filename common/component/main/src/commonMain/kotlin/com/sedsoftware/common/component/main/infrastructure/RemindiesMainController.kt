@@ -10,7 +10,7 @@ import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Suppress("OPT_IN_USAGE")
-class RemindiesMainController(
+internal class RemindiesMainController(
     private val controller: RemindiesController
 ) : MainController {
 
