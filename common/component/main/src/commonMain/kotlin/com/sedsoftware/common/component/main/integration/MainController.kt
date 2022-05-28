@@ -5,7 +5,7 @@ import com.badoo.reaktive.observable.Observable
 import com.sedsoftware.common.domain.entity.NextShot
 import com.sedsoftware.common.domain.entity.Remindie
 
-interface MainController {
+internal interface MainController {
     val updates: Observable<List<NextShot>>
 
     fun delete(remindie: Remindie): Completable
